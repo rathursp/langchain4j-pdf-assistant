@@ -4,6 +4,7 @@ import dev.langchain4j.chain.ConversationalRetrievalChain;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.parser.apache.pdfbox.ApachePdfBoxDocumentParser;
 import dev.langchain4j.store.embedding.EmbeddingStoreIngestor;
+import dev.langchain4j.store.embedding.cassandra.AstraDbEmbeddingStore;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,19 +17,23 @@ public class ChatController {
 
     private final ConversationalRetrievalChain conversationalRetrievalChain;
     private final EmbeddingStoreIngestor embeddingStoreIngestor;
+    private final AstraDbEmbeddingStore astraDbEmbeddingStore;
 
     // tracks whether a PDF has been uploaded in this session
     private boolean pdfIngested = false;
 
     public ChatController(ConversationalRetrievalChain conversationalRetrievalChain,
-                          EmbeddingStoreIngestor embeddingStoreIngestor) {
+                          EmbeddingStoreIngestor embeddingStoreIngestor,
+                          AstraDbEmbeddingStore astraDbEmbeddingStore) {
         this.conversationalRetrievalChain = conversationalRetrievalChain;
         this.embeddingStoreIngestor = embeddingStoreIngestor;
+        this.astraDbEmbeddingStore = astraDbEmbeddingStore;
     }
 
     /**
      * POST /api/upload
-     * Accepts a PDF file, parses it and ingests embeddings into AstraDB.
+     * Clears old embeddings from AstraDB, then parses and ingests the new PDF.
+     * This ensures questions are always answered from the currently uploaded PDF only.
      */
     @PostMapping("/upload")
     public ResponseEntity<String> uploadPdf(@RequestParam("file") MultipartFile file) {
@@ -42,6 +47,10 @@ public class ChatController {
         }
 
         try (InputStream inputStream = file.getInputStream()) {
+            // Clear all existing embeddings from the table before ingesting the new PDF.
+            // This prevents mixing context from multiple PDFs which causes incorrect answers.
+            astraDbEmbeddingStore.getEmbeddingTable().clear();
+
             ApachePdfBoxDocumentParser parser = new ApachePdfBoxDocumentParser();
             Document document = parser.parse(inputStream);
             embeddingStoreIngestor.ingest(document);
