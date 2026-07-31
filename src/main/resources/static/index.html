@@ -60,6 +60,14 @@
       color: white;
       flex-shrink: 0;
       border: 2px solid rgba(255,255,255,0.15);
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
     }
 
     .profile-info {
@@ -376,7 +384,9 @@
   <!-- ── Profile Banner ── -->
   <div class="profile-banner">
     <div class="profile-card">
-      <div class="avatar">AK</div>
+      <div class="avatar">
+        <img src="/profile.jpg" alt="Abhishek Kumar" onerror="this.style.display='none';this.parentElement.innerHTML='AK';" />
+      </div>
       <div class="profile-info">
         <div class="profile-name">Abhishek Kumar</div>
         <div class="profile-title">Java Backend Developer &nbsp;·&nbsp; AI/LLM Integration</div>
