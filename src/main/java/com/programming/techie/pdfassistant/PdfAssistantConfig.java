@@ -2,7 +2,7 @@ package com.programming.techie.pdfassistant;
 
 import dev.langchain4j.chain.ConversationalRetrievalChain;
 import dev.langchain4j.data.document.splitter.DocumentSplitters;
-import dev.langchain4j.model.embedding.BgeSmallEnV15QuantizedEmbeddingModel;
+import dev.langchain4j.model.embedding.AllMiniLmL6V2QuantizedEmbeddingModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.retriever.EmbeddingStoreRetriever;
@@ -42,7 +42,7 @@ public class PdfAssistantConfig {
 
     @Bean
     public EmbeddingModel embeddingModel() {
-        return new BgeSmallEnV15QuantizedEmbeddingModel();
+        return new AllMiniLmL6V2QuantizedEmbeddingModel();
     }
 
     @Bean
