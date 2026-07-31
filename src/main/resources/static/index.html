@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PDF Assistant</title>
+  <title>PDF Assistant — Abhishek Kumar</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -11,26 +11,169 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #0f172a;
       color: #e2e8f0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
+    /* ── Profile Banner ── */
+    .profile-banner {
+      width: 100%;
+      max-width: 800px;
+      margin-top: 20px;
+      padding: 0 16px;
+    }
+
+    .profile-card {
+      background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 60%, #0f2942 100%);
+      border: 1px solid #2d5a8e;
+      border-radius: 14px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 140px; height: 140px;
+      background: radial-gradient(circle, rgba(56,139,253,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.15);
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.2px;
+    }
+
+    .profile-title {
+      font-size: 0.82rem;
+      color: #7dd3fc;
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    .profile-description {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .profile-links {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .profile-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .profile-link:hover { transform: translateY(-1px); }
+
+    .link-github {
+      background: rgba(255,255,255,0.08);
+      color: #e2e8f0;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .link-github:hover { background: rgba(255,255,255,0.15); }
+
+    .link-linkedin {
+      background: rgba(10, 102, 194, 0.25);
+      color: #7dd3fc;
+      border: 1px solid rgba(10, 102, 194, 0.4);
+    }
+
+    .link-linkedin:hover { background: rgba(10, 102, 194, 0.4); }
+
+    .tech-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .tech-label {
+      font-size: 0.68rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: flex-end;
+    }
+
+    .tech-tag {
+      font-size: 0.68rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .tag-java    { background: #431407; color: #fb923c; border: 1px solid #7c2d12; }
+    .tag-spring  { background: #052e16; color: #4ade80; border: 1px solid #14532d; }
+    .tag-ai      { background: #1e1b4b; color: #a5b4fc; border: 1px solid #3730a3; }
+    .tag-db      { background: #0c1a2e; color: #38bdf8; border: 1px solid #0369a1; }
+
+    /* ── Main App Container ── */
     .container {
       width: 100%;
       max-width: 800px;
-      height: 92vh;
+      height: calc(100vh - 160px);
       display: flex;
       flex-direction: column;
-      padding: 16px;
+      padding: 12px 16px 16px;
       gap: 12px;
     }
 
     h1 {
       text-align: center;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       color: #7dd3fc;
       letter-spacing: 0.5px;
     }
@@ -60,14 +203,9 @@
       align-items: center;
     }
 
-    .file-input-wrapper {
-      flex: 1;
-      position: relative;
-    }
+    .file-input-wrapper { flex: 1; position: relative; }
 
-    #fileInput {
-      display: none;
-    }
+    #fileInput { display: none; }
 
     .file-label {
       display: flex;
@@ -103,12 +241,7 @@
       transition: background 0.2s, opacity 0.2s;
     }
 
-    .btn-upload {
-      background: #0ea5e9;
-      color: white;
-      white-space: nowrap;
-    }
-
+    .btn-upload { background: #0ea5e9; color: white; white-space: nowrap; }
     .btn-upload:hover { background: #0284c7; }
     .btn-upload:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -122,24 +255,9 @@
       font-weight: 600;
     }
 
-    .status-badge.no-pdf {
-      background: #1e293b;
-      color: #64748b;
-      border: 1px solid #334155;
-    }
-
-    .status-badge.ready {
-      background: #064e3b;
-      color: #34d399;
-      border: 1px solid #065f46;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: currentColor;
-    }
+    .status-badge.no-pdf  { background: #1e293b; color: #64748b; border: 1px solid #334155; }
+    .status-badge.ready   { background: #064e3b; color: #34d399; border: 1px solid #065f46; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 
     /* Chat section */
     .chat-section {
@@ -164,14 +282,8 @@
     .chat-messages::-webkit-scrollbar { width: 4px; }
     .chat-messages::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
 
-    .message {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      max-width: 80%;
-    }
-
-    .message.user { align-self: flex-end; align-items: flex-end; }
+    .message { display: flex; flex-direction: column; gap: 4px; max-width: 80%; }
+    .message.user      { align-self: flex-end;   align-items: flex-end; }
     .message.assistant { align-self: flex-start; align-items: flex-start; }
 
     .message-role {
@@ -191,115 +303,121 @@
     }
 
     .message.user .message-bubble {
-      background: #0ea5e9;
-      color: white;
-      border-bottom-right-radius: 3px;
+      background: #0ea5e9; color: white; border-bottom-right-radius: 3px;
     }
 
     .message.assistant .message-bubble {
-      background: #0f172a;
-      color: #e2e8f0;
-      border: 1px solid #334155;
-      border-bottom-left-radius: 3px;
+      background: #0f172a; color: #e2e8f0;
+      border: 1px solid #334155; border-bottom-left-radius: 3px;
     }
 
     .message.assistant.error .message-bubble {
-      background: #1c0a0a;
-      border-color: #7f1d1d;
-      color: #fca5a5;
+      background: #1c0a0a; border-color: #7f1d1d; color: #fca5a5;
     }
 
     .typing-indicator {
-      display: flex;
-      gap: 4px;
-      padding: 12px 14px;
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      border-bottom-left-radius: 3px;
-      width: fit-content;
+      display: flex; gap: 4px; padding: 12px 14px;
+      background: #0f172a; border: 1px solid #334155;
+      border-radius: 12px; border-bottom-left-radius: 3px; width: fit-content;
     }
 
     .typing-indicator span {
-      width: 7px;
-      height: 7px;
-      background: #475569;
-      border-radius: 50%;
-      animation: bounce 1.2s infinite;
+      width: 7px; height: 7px; background: #475569;
+      border-radius: 50%; animation: bounce 1.2s infinite;
     }
-
     .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
     .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
 
     @keyframes bounce {
       0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-6px); }
+      30%            { transform: translateY(-6px); }
     }
 
     .empty-state {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #334155;
-      gap: 8px;
-      font-size: 0.9rem;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: #334155; gap: 8px; font-size: 0.9rem;
     }
-
     .empty-state svg { opacity: 0.3; }
 
     /* Input row */
     .chat-input-row {
-      display: flex;
-      gap: 8px;
-      padding: 12px;
-      border-top: 1px solid #334155;
-      background: #1e293b;
+      display: flex; gap: 8px; padding: 12px;
+      border-top: 1px solid #334155; background: #1e293b;
     }
 
     #questionInput {
-      flex: 1;
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      color: #e2e8f0;
-      padding: 10px 14px;
-      font-size: 0.92rem;
-      outline: none;
-      resize: none;
-      height: 44px;
-      line-height: 1.4;
-      transition: border-color 0.2s;
+      flex: 1; background: #0f172a; border: 1px solid #334155;
+      border-radius: 8px; color: #e2e8f0; padding: 10px 14px;
+      font-size: 0.92rem; outline: none; resize: none;
+      height: 44px; line-height: 1.4; transition: border-color 0.2s;
     }
-
     #questionInput:focus { border-color: #0ea5e9; }
     #questionInput::placeholder { color: #475569; }
 
     .btn-send {
-      background: #0ea5e9;
-      color: white;
-      width: 44px;
-      height: 44px;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
+      background: #0ea5e9; color: white;
+      width: 44px; height: 44px; padding: 0;
+      display: flex; align-items: center; justify-content: center; border-radius: 8px;
     }
-
     .btn-send:hover { background: #0284c7; }
     .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* Upload progress */
-    .upload-progress {
-      display: none;
-      font-size: 0.82rem;
-      color: #7dd3fc;
+    .upload-progress { display: none; font-size: 0.82rem; color: #7dd3fc; }
+
+    @media (max-width: 600px) {
+      .tech-stack { display: none; }
+      .profile-card { flex-wrap: wrap; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ── Profile Banner ── -->
+  <div class="profile-banner">
+    <div class="profile-card">
+      <div class="avatar">AK</div>
+      <div class="profile-info">
+        <div class="profile-name">Abhishek Kumar</div>
+        <div class="profile-title">Java Backend Developer &nbsp;·&nbsp; AI/LLM Integration</div>
+        <div class="profile-description">
+          Built this RAG-based PDF Assistant using Spring Boot, LangChain4j, AstraDB (vector store), and Groq LLM.
+          Deployed on Railway with Docker.
+        </div>
+        <div class="profile-links">
+          <a class="profile-link link-github"
+             href="https://github.com/rathursp"
+             target="_blank" rel="noopener">
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            rathursp
+          </a>
+          <a class="profile-link link-linkedin"
+             href="https://www.linkedin.com/in/abhishek7966/"
+             target="_blank" rel="noopener">
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            abhishek7966
+          </a>
+        </div>
+      </div>
+      <div class="tech-stack">
+        <span class="tech-label">Built with</span>
+        <div class="tech-tags">
+          <span class="tech-tag tag-java">Java 17</span>
+          <span class="tech-tag tag-spring">Spring Boot</span>
+          <span class="tech-tag tag-ai">LangChain4j</span>
+          <span class="tech-tag tag-ai">Groq LLM</span>
+          <span class="tech-tag tag-db">AstraDB</span>
+          <span class="tech-tag tag-db">Docker</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main App ── -->
   <div class="container">
     <h1>📄 PDF Assistant</h1>
 
@@ -338,7 +456,6 @@
             <polyline points="14 2 14 8 20 8"/>
             <line x1="16" y1="13" x2="8" y2="13"/>
             <line x1="16" y1="17" x2="8" y2="17"/>
-            <polyline points="10 9 9 9 8 9"/>
           </svg>
           <span>Upload a PDF to start chatting</span>
         </div>
@@ -361,7 +478,6 @@
   </div>
 
   <script>
-    // --- File input handler ---
     document.getElementById('fileInput').addEventListener('change', function () {
       const file = this.files[0];
       if (file) {
@@ -370,14 +486,13 @@
       }
     });
 
-    // --- Upload PDF ---
     async function uploadPdf() {
       const fileInput = document.getElementById('fileInput');
       const file = fileInput.files[0];
       if (!file) return;
 
-      const uploadBtn = document.getElementById('uploadBtn');
-      const progress = document.getElementById('uploadProgress');
+      const uploadBtn  = document.getElementById('uploadBtn');
+      const progress   = document.getElementById('uploadProgress');
 
       uploadBtn.disabled = true;
       progress.style.display = 'block';
@@ -386,13 +501,8 @@
       formData.append('file', file);
 
       try {
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData
-        });
-
+        const response = await fetch('/api/upload', { method: 'POST', body: formData });
         const text = await response.text();
-
         if (response.ok) {
           setStatus('ready');
           enableChat();
@@ -409,19 +519,17 @@
       }
     }
 
-    // --- Send chat message ---
     async function sendMessage() {
-      const input = document.getElementById('questionInput');
+      const input    = document.getElementById('questionInput');
       const question = input.value.trim();
       if (!question) return;
 
       addMessage('user', question);
       input.value = '';
-      input.style.height = '44px';
 
       const sendBtn = document.getElementById('sendBtn');
       sendBtn.disabled = true;
-      input.disabled = true;
+      input.disabled   = true;
 
       const typingId = showTyping();
 
@@ -431,10 +539,8 @@
           headers: { 'Content-Type': 'text/plain' },
           body: question
         });
-
         const text = await response.text();
         removeTyping(typingId);
-
         if (response.ok) {
           addMessage('assistant', text);
         } else {
@@ -445,52 +551,40 @@
         addMessage('assistant', '❌ Request failed: ' + err.message, true);
       } finally {
         sendBtn.disabled = false;
-        input.disabled = false;
+        input.disabled   = false;
         input.focus();
       }
     }
 
-    // --- Enter to send (Shift+Enter for newline) ---
     function handleKeyDown(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
     }
 
-    // --- Add message bubble ---
     function addMessage(role, text, isError = false) {
-      const container = document.getElementById('chatMessages');
+      const container  = document.getElementById('chatMessages');
       const emptyState = document.getElementById('emptyState');
       if (emptyState) emptyState.remove();
 
       const msg = document.createElement('div');
       msg.className = 'message ' + role + (isError ? ' error' : '');
-
       msg.innerHTML = `
         <span class="message-role">${role === 'user' ? 'You' : 'Assistant'}</span>
         <div class="message-bubble">${escapeHtml(text)}</div>
       `;
-
       container.appendChild(msg);
       container.scrollTop = container.scrollHeight;
     }
 
-    // --- Typing indicator ---
     function showTyping() {
       const container = document.getElementById('chatMessages');
       const id = 'typing-' + Date.now();
-
       const wrapper = document.createElement('div');
       wrapper.className = 'message assistant';
       wrapper.id = id;
       wrapper.innerHTML = `
         <span class="message-role">Assistant</span>
-        <div class="typing-indicator">
-          <span></span><span></span><span></span>
-        </div>
+        <div class="typing-indicator"><span></span><span></span><span></span></div>
       `;
-
       container.appendChild(wrapper);
       container.scrollTop = container.scrollHeight;
       return id;
@@ -501,15 +595,14 @@
       if (el) el.remove();
     }
 
-    // --- UI state helpers ---
     function setStatus(state) {
       const badge = document.getElementById('statusBadge');
-      const text = document.getElementById('statusText');
+      const text  = document.getElementById('statusText');
       if (state === 'ready') {
-        badge.className = 'status-badge ready';
+        badge.className  = 'status-badge ready';
         text.textContent = 'PDF ready';
       } else {
-        badge.className = 'status-badge no-pdf';
+        badge.className  = 'status-badge no-pdf';
         text.textContent = 'No PDF uploaded';
       }
     }
@@ -522,11 +615,8 @@
 
     function escapeHtml(text) {
       return text
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/\n/g, '<br>');
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/\n/g, '<br>');
     }
   </script>
 </body>
